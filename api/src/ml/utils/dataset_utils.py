@@ -1,6 +1,6 @@
 import pandas as pd
 
-btc_dataset_path = "./api/src/datasets/BTC.csv"
+btc_dataset_path = "./api/src/ml/datasets/BTC.csv"
 
 # Date Format: YYYY/MM/DD
 def get_btc_data(startDate = None, endDate = None):

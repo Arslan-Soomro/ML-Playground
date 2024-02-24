@@ -1,4 +1,4 @@
-from algos.linear_regression_algo import linear_regression
+from algorithms.linear_regression_algo import linear_regression
 from utils.schemas import LinearRegressionParams, ConfigParam, LinearRegressionHyperParams
 
 

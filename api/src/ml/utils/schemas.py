@@ -2,7 +2,7 @@ import pandas as pd
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import List, Literal
 from datetime import date
-from utils.dataset_utils import get_btc_data
+from api.src.ml.utils.dataset_utils import get_btc_data
 from typing import TypeVar
 
 btc_data = get_btc_data()
