@@ -1,9 +1,9 @@
 import pandas as pd
-from pydantic import BaseModel, Field, field_validator, ConfigDict
+from pydantic import BaseModel, Field, field_validator, ConfigDict, model_validator
 from typing import List, Literal
 from datetime import date
 from api.src.ml.utils.dataset_utils import get_btc_data
-from typing import TypeVar
+from typing import TypeVar, Any
 
 btc_data = get_btc_data()
 
@@ -27,19 +27,20 @@ class ConfigParam(BaseModel):
     test_size: float = Field(default=0.2, ge=0.0, le=1.0,
                              description="Size of the test set")
 
-    @field_validator('start_date')
-    def date_must_be_before(cls, v, values):
-        if v > values['end_date']:
+    @model_validator(mode="after")
+    @classmethod
+    def check_dates(cls, data):
+        st_date = data.start_date
+        ed_date = data.end_date
+        if st_date > ed_date:
             raise ValueError('start_date must be before end_date')
-        if v < default_start_date:
-            raise ValueError(f'start_date must be after {default_start_date}')
-
-    @field_validator('end_date')
-    def date_must_be_after(cls, v, values):
-        if v < values['start_date']:
-            raise ValueError('end_date must be after start_date')
-        if v > default_end_date:
-            raise ValueError(f'end_date must be before {default_end_date}')
+        if st_date < default_start_date or st_date > default_end_date:
+            raise ValueError(
+                f'start_date must be after {default_start_date} and before {default_end_date}')
+        if ed_date < default_start_date or ed_date > default_end_date:
+            raise ValueError(
+                f'end_date must be after {default_start_date} and before {default_end_date}')
+        return data;
 
 
 class RegMetrics(BaseModel):
@@ -55,6 +56,11 @@ class LinearRegressionHyperParams(BaseModel):
         default=True, description="Whether to calculate the intercept for this model")
 
 
+class RegressionParams(BaseModel):
+    config: ConfigParam | None = None
+    hyper_params: dict | None = None
+
+
 class LinearRegressionParams(BaseModel):
     config: ConfigParam
     hyper_params: LinearRegressionHyperParams
@@ -63,4 +69,4 @@ class LinearRegressionParams(BaseModel):
 class AlgorithmResults(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
     metrics: RegMetrics
-    predictions: pd.DataFrame
+    predictions: Any

@@ -1,5 +1,5 @@
-from algorithms.linear_regression_algo import linear_regression
-from utils.schemas import LinearRegressionParams, ConfigParam, LinearRegressionHyperParams
+from api.src.ml.algorithms.linear_regression_algo import linear_regression
+from api.src.ml.utils.schemas import LinearRegressionParams, ConfigParam, LinearRegressionHyperParams
 
 
 results = linear_regression(
