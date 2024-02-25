@@ -3,7 +3,7 @@ import pandas as pd
 btc_dataset_path = "./api/src/ml/datasets/BTC.csv"
 
 # Date Format: YYYY/MM/DD
-def get_btc_data(startDate = None, endDate = None):
+def get_btc_data(startDate = None, endDate = None, remove_date_column = True):
     df = pd.read_csv(btc_dataset_path);
     
     df['date'] = pd.to_datetime(df['date'])
@@ -14,6 +14,6 @@ def get_btc_data(startDate = None, endDate = None):
     df.reset_index(drop=True, inplace=True);
     
     retain_columns = df.columns.to_list();
-    retain_columns.remove("date");
+    if(remove_date_column): retain_columns.remove("date");
 
     return df

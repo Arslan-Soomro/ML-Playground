@@ -35,9 +35,14 @@ def train_test_split_chronological(x, y, test_size):
     y_test = y.iloc[-int(len(y) * test_size):]
     return x_train, x_test, y_train, y_test
 
-def generate_predictions_df(x_test, y_test, y_pred):
+def generate_predictions_df(x_test, y_test, y_pred, dates):
     predictions = x_test.copy();
     predictions['price'] = y_test;
     predictions['predicted_price'] = y_pred;
-    predictions['date'] = predictions[['year', 'month', 'day']].apply(lambda x: date(year=x['year'], month=x['month'], day=x['day']), axis=1);
+    # dates parameter is a df with only the date column, add it to the predictions df, horizontally
+    predictions['date'] = dates;
+    
+    # Old couldn't use because of the use of year, month, day, which could not be present in the dataset
+    # predictions['date'] = predictions[['year', 'month', 'day']].apply(lambda x: date(year=x['year'], month=x['month'], day=x['day']), axis=1);
+    
     return predictions

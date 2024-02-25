@@ -66,7 +66,15 @@ class LinearRegressionParams(BaseModel):
     hyper_params: LinearRegressionHyperParams
 
 
-class AlgorithmResults(BaseModel):
+class AlgoOutput(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
+    # metrics: RegMetrics
+    # predictions: Any
+    output: tuple[RegMetrics, pd.DataFrame]
+
+class AlgoRouteResponseData(BaseModel):
     metrics: RegMetrics
-    predictions: Any
+    predictions: dict
+class AlgoRouteResponse(BaseModel):
+    data: AlgoRouteResponseData
+    message: str

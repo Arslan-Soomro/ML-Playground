@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from api.src.ml.algorithms.algos import algos_collection
-from api.src.ml.utils.schemas import LinearRegressionParams, AlgorithmResults, ConfigParam, LinearRegressionHyperParams
+from api.src.ml.utils.schemas import LinearRegressionParams, AlgoOutput, ConfigParam, LinearRegressionHyperParams, AlgoRouteResponse
 from api.src.ml.algorithms.linear_regression_algo import linear_regression
 
 router = APIRouter()
@@ -18,19 +18,19 @@ def get_algo(name: str):
     else:
         raise HTTPException(status_code=404, detail="Algorithm not found")
 
-# FIXME config is None for some reason in both cases either when passed separately or as a single object
-
 
 @router.post("/algos/compute/linear_regression", tags=["ml"], response_description="Compute the Linear Regression algorithm")
-# -> AlgorithmResults:
-def compute_alog(payload: LinearRegressionParams):
-    # Catch any exceptions and return a 500 error
-    # print("Params: ", config_r, hyper_params);
+def compute_alog(payload: LinearRegressionParams) -> AlgoRouteResponse:
     try:
-        print("Params: ");
-        result = linear_regression(
+        metrics, predictions = linear_regression(
             payload
         )
-        return { result }
+        return {
+            'data': {
+                "metrics": metrics,
+                "predictions": predictions.to_dict() # Pass orient="records" to return a list of dictionaries each representing a row
+            },
+            'message': "Success"
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

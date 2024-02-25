@@ -2,12 +2,12 @@ from datetime import date
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from api.src.ml.utils.schemas import LinearRegressionParams, AlgorithmResults
+from api.src.ml.utils.schemas import LinearRegressionParams, AlgoOutput
 from api.src.ml.utils.utils import evaluate_reg_metrics, train_test_split_chronological, generate_predictions_df
 from api.src.ml.utils.dataset_utils import get_btc_data
 
-# FIXME: Unhashable type: 'dict:' error
-def linear_regression(args: LinearRegressionParams) -> AlgorithmResults:    
+
+def linear_regression(args: LinearRegressionParams) -> AlgoOutput:    
     print("Args: ", args);
     config = args.config;
     hyper_params = args.hyper_params;
@@ -18,7 +18,6 @@ def linear_regression(args: LinearRegressionParams) -> AlgorithmResults:
 
     x = df[[*config.x_features]]
     y = df[config.y_feature]
-    print("Checkpoint: 1");
     # Split the data into training/testing sets
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
@@ -33,10 +32,7 @@ def linear_regression(args: LinearRegressionParams) -> AlgorithmResults:
     
 
     metrics = evaluate_reg_metrics(y_test, y_pred)
-    prediction_result = generate_predictions_df(x_test, y_test, y_pred);
-    print("Checkpoint: 4");
-    
-    return {
-        "metrics": metrics,
-        "predictions": prediction_result,
-    }
+    dates_of_predictions = get_btc_data(config.start_date, config.end_date, False)["date"].apply(lambda x: date(x.year, x.month, x.day));
+    prediction_result = generate_predictions_df(x_test, y_test, y_pred, dates_of_predictions);
+
+    return metrics, prediction_result.reset_index();
