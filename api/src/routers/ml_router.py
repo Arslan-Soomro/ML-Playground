@@ -34,3 +34,19 @@ def compute_alog(payload: LinearRegressionParams) -> AlgoRouteResponse:
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/algos/compute/linear_regression", tags=["ml"], response_description="Compute the Linear Regression algorithm")
+def compute_alog(payload: LinearRegressionParams) -> AlgoRouteResponse:
+    try:
+        metrics, predictions = linear_regression(
+            payload
+        )
+        return {
+            'data': {
+                "metrics": metrics,
+                "predictions": predictions.to_dict() # Pass orient="records" to return a list of dictionaries each representing a row
+            },
+            'message': "Success"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

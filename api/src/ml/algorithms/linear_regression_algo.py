@@ -8,7 +8,7 @@ from api.src.ml.utils.dataset_utils import get_btc_data
 
 
 def linear_regression(args: LinearRegressionParams) -> AlgoOutput:    
-    print("Args: ", args);
+    # print("Args: ", args);
     config = args.config;
     hyper_params = args.hyper_params;
     
@@ -21,11 +21,10 @@ def linear_regression(args: LinearRegressionParams) -> AlgoOutput:
     # Split the data into training/testing sets
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
-    print("Checkpoint: 2");
+    
     # Create linear regression object
     model = LinearRegression(**hyper_params.dict())
     model.fit(x_train, y_train)
-    print("Checkpoint: 3");
 
     # Make predictions using the testing set
     y_pred = model.predict(x_test)
