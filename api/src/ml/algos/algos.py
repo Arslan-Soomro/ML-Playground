@@ -1,4 +1,4 @@
-from api.src.ml.utils.schemas import LinearRegressionParams, RidgeRegressionParams, SGDRegressorParams
+from api.src.ml.utils.schemas import LinearRegressionParams, RidgeRegressionParams, SGDRegressorParams, ElasticNetHyperParams, LarsHyperParams, LassoHyperParams, LassoLarsHyperParams, ARDRegressionHyperParams
 
 algos_collection = {
     "linear_regression": {
@@ -26,35 +26,35 @@ algos_collection = {
         "id": 4,
         "title": "Elastic Net Regression",
         "description": "The SGDRegressor in scikit-learn is a linear model fitted by minimizing a regularized empirical loss with stochastic gradient descent, versatile for handling a variety of regression tasks.",
-        "schema": SGDRegressorParams.model_json_schema(),
+        "schema": ElasticNetHyperParams.model_json_schema(),
         "function": "linear_regression",
     },
     "lars_regression": {
         "id": 5,
         "title": "Lars Regression",
         "description": "The SGDRegressor in scikit-learn is a linear model fitted by minimizing a regularized empirical loss with stochastic gradient descent, versatile for handling a variety of regression tasks.",
-        "schema": SGDRegressorParams.model_json_schema(),
+        "schema": LarsHyperParams.model_json_schema(),
         "function": "linear_regression",
     },
     "lasso_regression": {
         "id": 6,
         "title": "Lasso Regression",
         "description": "The SGDRegressor in scikit-learn is a linear model fitted by minimizing a regularized empirical loss with stochastic gradient descent, versatile for handling a variety of regression tasks.",
-        "schema": SGDRegressorParams.model_json_schema(),
+        "schema": LassoHyperParams.model_json_schema(),
         "function": "linear_regression",
     },
     "lasso_lars_regression": {
         "id": 7,
         "title": "LassoLars Regression",
         "description": "The SGDRegressor in scikit-learn is a linear model fitted by minimizing a regularized empirical loss with stochastic gradient descent, versatile for handling a variety of regression tasks.",
-        "schema": SGDRegressorParams.model_json_schema(),
+        "schema": LassoLarsHyperParams.model_json_schema(),
         "function": "linear_regression",
     },
     "ard_regression": {
         "id": 8,
         "title": "ARD Regression",
         "description": "The SGDRegressor in scikit-learn is a linear model fitted by minimizing a regularized empirical loss with stochastic gradient descent, versatile for handling a variety of regression tasks.",
-        "schema": SGDRegressorParams.model_json_schema(),
+        "schema": ARDRegressionHyperParams.model_json_schema(),
         "function": "linear_regression",
     },
 }
