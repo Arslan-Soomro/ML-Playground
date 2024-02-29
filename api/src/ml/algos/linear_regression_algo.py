@@ -18,6 +18,7 @@ def linear_regression(args: LinearRegressionParams) -> AlgoOutput:
 
     x = df[[*config.x_features]]
     y = df[config.y_feature]
+    
     # Split the data into training/testing sets
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
@@ -115,7 +116,7 @@ def elastic_net_regression(args: ElasticNetParams) -> AlgoOutput:
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
     
-    # Create SGD regression object
+    # Create Elastic Net regression object
     model = ElasticNet(**hyper_params.dict()) 
     model.fit(x_train, y_train)
 
@@ -145,7 +146,7 @@ def lars_regression(args: LarsParams) -> AlgoOutput:
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
     
-    # Create SGD regression object
+    # Create Lars regression object
     model = Lars(**hyper_params.dict()) 
     model.fit(x_train, y_train)
 
@@ -175,7 +176,7 @@ def lasso_regression(args: LassoParams) -> AlgoOutput:
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
     
-    # Create SGD regression object
+    # Create Lasso regression object
     model = Lasso(**hyper_params.dict()) 
     model.fit(x_train, y_train)
 
@@ -205,7 +206,7 @@ def lasso_lars_regression(args: LassoLarsParams) -> AlgoOutput:
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
     
-    # Create SGD regression object
+    # Create LassoLars regression object
     model = LassoLars(**hyper_params.dict()) 
     model.fit(x_train, y_train)
 
@@ -235,7 +236,7 @@ def ard_regression(args: ARDRegressionParams) -> AlgoOutput:
     # Don't shuffle the data, we want to keep the chronological order, and we want to test on the most recent data
     x_train, x_test, y_train, y_test = train_test_split_chronological(x, y, config.test_size)
     
-    # Create SGD regression object
+    # Create ARD regression object
     model = ARDRegression(**hyper_params.dict()) 
     model.fit(x_train, y_train)
 
